@@ -1,0 +1,96 @@
+Internal organization of computers
+	-> every computer can be broken down into three parts
+	   CPU, Memory, I/O
+	   CPU: the function of the CPU is to execute commands
+		and process information stored in the memory
+	   I/O: provide means for communicating with the CPU
+	-> Bus: a bus inside the computer is a strip of wires
+		used to connect different places together
+	   Every computer has 3 types of buses:
+	   -> Address bus
+	   -> data bus
+	   -> control bus
+
+	For a CPU to recognize a device attached to it, it must
+	be assigned an address. this address must be uniqe to 
+	identify the device. when a CPU need to communicate with
+	a device it puts the address (in binary) in the address bus
+	then a signal putted in the control bus to direct the device
+	that the CPU need to read or write from the device in the
+	address bus. then the data bus is used to transfear the data
+ 	from / to the CPU.
+
+	From this we can observe that the data bus must be bidirectional
+	while the other two are unidirectional.
+
+	The data bus and the address bus detrimines the capibilty of 
+	the CPU.
+
+	The process power of the CPU detrimens by the data bus
+	since 8-bit data bus can only send/recieve one byte at 
+	a time, a 16-bit data bus can send/recieve 2 bytes at a time.
+
+	The more address bus available the more addressable devices
+	can be connected to the CPU(mem, printer, ..etc). So to calculate
+	the total number of address can be accessed from the CPU use
+	2 power (x) where x is the number of wires in the address bus
+	regardless of the size of the data bus. each address can store
+	only one byte (CPU are byte addressable).
+
+	CPU has a great relation with the RAM and ROM because they are
+	the fastest devices can communicate with. For a CPU to process a
+	program this program must be stroed in the RAM or ROM. So the CPU
+	first seek the information in them if it is not exist it loades
+	them from the dist first and then execute them directly from the
+	memory. RAM and ROM are called primary memory, and hard disks are
+	called secondary memory.
+
+	Q: How many bytes is 24 Kilobytes?
+	A: 24 * (2**10)
+	
+	Q: What Does "RAM" stand for? How is it used in computer systems?
+	A: Random Access Memory. it is used as a temprory storage to store
+	   information for the cpu to process.
+	
+	Q: What does "ROM" stand for? How is it used in computer systems?
+	A: Read Only Memory. it is used as a storage for programs and codes
+	   that the system depend on and will cause serios problems it is
+	   modified.
+
+	Q: Why is the RAM is called volatile?
+	A: because all information inside it GONE when the computer is 
+	   turned off.
+	
+	Q: List the three major components of a computer system?
+	A: Central Processing Unit(CPU), Memory, I/O
+
+	Q: What a CPU stands for? Explain its function?
+	A: Central Processing Unit. it is used to execute and process
+	   information stored in the memory.
+
+	Q: List the thre types of buses found in computer systems and
+	   state breiefly the purpose of each type of bus.
+	A: Address, Data, Control bus.
+	   Address Bus: is used as unidirectional bus to allow the CPU
+	                to address different devices that are attached to it.
+	   Data Bus: is used to send / recieve data from the CPU.
+	   Control Bus: is used to control the device that is attached to
+		     	the address bus (ethier read or write).
+	
+	Q: What does "ALU" stand for? What is its purpose?
+	A: Arithmatic/Logic Unit. to do basic add, sub, mul, div and
+	   logical operators AND OR XOR ...
+
+	Q: How are registers used in computer systems?
+	A: used to store data temporarily inside the CPU.
+
+	Q: What is the purpose of teh program counter?
+	A: it is used to point to the next instruction for the CPU to fetch.
+
+	Q: What is the purpose of the instruction decoder?
+	A: it is the dictonary for the CPU.
+
+	Q: What is a microprocessor?
+	A: Is the name of the first CPU working on a chip developed by
+	   intel (4004) microprocessor.
+
