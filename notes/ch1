@@ -1,0 +1,119 @@
+HISTORY OF THE 80X86 FAMILY
+	From 8080/85 to 8086: this microprocessor has major improvements over
+			      previour 6 versions in serveral ways:
+			      -> the capacity of the address bus become up 
+			         to 1 megabyte which is better than the 
+				 prvious which only has 64 kelobytes.
+			      -> it is 16 bit processor the former were
+			      	 8 bit.
+			      -> it is pipelined which means when the CPU
+			         is busy doing operations the buses are also
+				 busy fetching the next instruction.
+
+	From 8086 to 8088: the 8086 has a 16 external and internal data bus
+			   which is good, but the other devices were not yet
+			   designed to be 16 bit such as memory are designed
+			   to be 8 bit. So Intel come with the idea that 
+			   it will make a microprocessor that is identical
+			   to 8086 but has an external data bus as 8 bits to
+			   be compatable with the prephirals.
+
+INSIDE THE 8088/8086
+	Pipelining: Is the ability for the microprocessor to fetch and execute
+		    in the same time.
+		   -> There are two ways to imporve the power of a CPU either
+		      by increasing the frequency. Or by changing the internals
+		      the CPU. in 8086 intel changed the internal of the CPU
+		      it will consist of two separate units. EU and BIU each
+		      of them can run simaultinously. and indpendent of the other.
+		      With this feature in hand the EU (execution unit) can be 
+		      always busy as long the BIU (bus interface unit) fetches
+		      the instructions and make them ready for the EU to execute.
+		      From this we can observe that the BIU must be ahead from the
+		      EU which is exactly the case. The BIU has a queue that store
+		      the next instruction for the EU. this queue is 6 bytes in 
+		      8086 and 4 bytes in 8085. Sometimes this queue need to be
+		      flushed because maybe a jump instruction or so. at this case
+		      what is called a branch benalty happed and the EU must wait
+		      until the BIU fetch the next instruction.
+
+	Registers: Is a temporary storage device. this device is closer to the
+		   CPU so the operation done on the device is much faster than
+		   memory. Only the general registers can be accessed by 8 bits.
+		   AX is an acumilator, BX is a base addressing, CX is a counter,
+		   DX is used to point to data in I/O operatoins.
+
+INTRODUCTION TO ASSEMBLY PROGRAMMING
+	It is easer for human to not work with binary numbers. programs back in
+	the days are written in binary. such a program is called written in 
+	machine language.
+	Assembly language were devolped with mnemonic instruction that are
+	easy to remember by the programmer. there is must a program to 
+	transilate from an Assembly to machine code, such a program is called
+	Assembler. Not any programmer can program in assembly, he must know
+	the internal of the CPU that the assembly code is written to run on.
+
+	In assembly language each line consists of instruction followed by 
+	one or two oprands. the oprands provide the data that will be manipulated
+	by the instruction.
+
+	In 8086 CPU, data can be moved across all the registers except the flag
+	register as long as the size match.
+	
+	Data can not move directly to segment registers. data must be first
+	moved to one of the nonsegment registers and then moved to a segment
+	register e.g. MOV AX, 3242H => MOV DS, AX
+	
+	If data to be moved is less than FFH the most bits will be filled with
+	zeros
+	
+	Moving data greater than the size of a register is ILLEGAL.
+
+	ADD dest, source ; it tells the CPU to add the source to the dest
+	and save the result in dest.
+
+INTRODUCTION TO PROGRAM SEGMENTS
+	A typical Assembly program consists of AT LEASET three segments
+	code, data, and stack. The code segment is used to store the instructions
+	that the CPU will perform during execution. The data segment stores data
+	that the instruction will manipulate or process. The stack segment is 
+	used as a temproray storage for the CPU.
+
+	The origin of segments comes from the 8085. But wait.. What is a segment
+	a segment in 8086 CPU represent a block of memory that is 64Kbytes in size
+	why 64K???. here come 8085 to the game. Since the address bus in the 8085
+	is only 16 bits it can assign address up to 64K bytes. Make sense? No of
+	course this made to make 8086 compitable with 8085. enough history.
+	with this limitaion in hand every program can have code segment and stack
+	segment and data segment up to 64K at any given time.
+
+	But how to access all the 1 megabytes?
+	Here come physical and logical addressing and offset address.
+	Physical address is the address that is putted on the address bus. that is
+	the 20 wires it ranges from 00000H to FFFFFH.
+	Offset address is the offset inside a given segment that is it ranges from
+	0000H to FFFFH.
+	Logical address is the segment address along with the offset address.
+
+	Code segment:
+	Note the opcode and oprands are stored in the CODE SEGMENT. the code
+	segment is used along the Instruction pointer CS:IP to get the physical
+	address of the next instruction. to calculate it you must shift CS one
+	hex digit to the right and then add IP to it. the result will be a 20 bit
+	address that will be put in the address bus pins.
+
+	Data segment:
+	the data segment contain the data that will be manipulated during the
+	execution. The DS is used as the pointer to the Data segment and the 
+	we can only use BX, SI, DI as offset. we also can use immidiate values
+	Note: the data are stored in littel endian convention which means lower
+	bits stored in lower location.
+
+	why we not assigning values for SS, DS, and CS?
+	Since the RAM is controlled by the DOS and the DOS is stored in it itslelf
+	and also the size of the DOS varies along with package applications the 
+	programmer has no knowladge where to put the SS, DS, and CS it must be 
+ 	left to the OS.
+
+	The OS is the one with the control when it is loaded.
+
