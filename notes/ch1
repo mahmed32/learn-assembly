@@ -117,3 +117,64 @@ INTRODUCTION TO PROGRAM SEGMENTS
 
 	The OS is the one with the control when it is loaded.
 
+MORE ABOUT SEGMENTS
+    What is the stack segment?
+    The stack segment is used a temporarily storage for the CPU. since a typical
+    CPU does not have a lot of register the stack segment is used to solve this
+    limitation of number of registers. But it has also a downside since the 
+    stack is on RAM its access time is slower than the registers.
+
+    How the stack is accessed?
+    We can acess the stack using two spceial registers inside the CPU called
+    SS(stack segment) which point to the start of the segment, and SP(stack pointer)
+    which is the offset of the segment. SP is decremented as we push into the stack
+    and incremetned as we pop out of the stack. this is the opposite of the IP
+    which incremeented after each fetch. The designed chooses this to minimize
+    the chance that the stack pointer and the instruction pointer collide
+    which will crash our program.  WE CAN POP/PUSH ONLY 16 BITS INTO THE STACK.
+    
+    Flags?
+    The flag register is a 16 bit register that each bit on it has some sort meaning
+    -> Carry flag : is set when there is a carry out from the last operation
+    -> Zero flag : is set when the result of the last operation is zero
+    -> Aux flag: is set when there is a carry after the first nipple
+    -> Sign flag: is set when the MSB is set.
+    -> Parity flag: is set when the number of 1s in the lower byte is even
+    -> Overflow flag: is set when there is an overflow "used with signed numbers"
+    -> trap, intrrupt, direction.
+
+    NOT ALL INSTRUCIONS AFFECTS THE FLAG REGISTER
+
+ADDREESSING MODES
+    These mode provide a way for the CPU to access its oprands.
+    INSIDE THE CPU:
+        ->Register addressing mode: The value to be accessed is stored inside a register
+          which means the CPU has to get the value from that register. this is very fast
+        ->Immediate addressing mode: The value is stored with the opcode so when the 
+          when the instructino is fetched it comes with its value immediately.
+    OUTSIDE THE CPU: The data are in memory
+        ->Direct mode: Here the offset comes with the instruction note that in 
+          immediate addressing mode the value comes with the instruction where as
+          in direct mode the location is what comes with the instruction. the physical
+          address is then calculated with the DS. e.g. MOV AX, [0200], the value
+          200 comes with the opcode but it must be added with DS shifted to get 
+          the physical address then the CPU look for that address in memory and
+          get the value inside it. it is clear that is a lot of work in the CPU.
+          which agree with the access time of memory is so larger than inside the CPU.
+        ->Register Indirect: here it is mush similar with direct mode but the what
+          comes with the opcode is a register. the CPU has to look up this register
+          and get from it the offset to the DS, here YOU CAN ONLY USE THE BX, SI, DI
+          AS OFFSETS AND NO OTHER REGISERS. e.g. MOV AX,[BX], OR, MOV AX, [SI],
+          MOV [DI], AX.
+        ->Based relative: the base register are used for this mission BX, BP, but
+          their default segment is not the same for BX it is DS and for BP it is SS
+          e.g. MOV AX, [BX]+2. MOV [BP+10],CX. MOV 10[BX], SI. DS:BX+10.
+        ->Indexed relative: the same as the based relative but the SI and the DI are
+          used with the DS as their base segment.
+        ->Based Indexed: is used by combining the based and indexed modes so we
+          use one base register and one index register. when BX is used from the base
+          the base segment will be DS, when the BP is used from the base registers
+          the SS will be the base segment.YOU CAN NOT USE TWO REGISTERS FROM THE SAME
+          MODE. THE ORDER DOSE NOT MATTER. e.g. MOV [BX + SI + 2], AX IS THE SAME AS
+          MOV [2 + SI + BX], AX.
+
