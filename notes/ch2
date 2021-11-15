@@ -1,0 +1,12 @@
+>> Explain the difference between Assembly language instructions and 
+   pseudo-instructions
+>> Identify the segments of an Assembly language program
+>> Code simple Assembly language instructions
+>> Assemble, link, and run a simple Assembly language program
+>> Code control transfer instructions such as conditional and unconditional
+   umbs and call instructinos
+>> Code Assembly language data directives for binary, hex, decima, or ASCII data
+>> Write and Assembly language program using either the full segment definition
+   or the simplified segment definition
+>> Explain the difference between COM andEXE files and list the advanctages of each
+
