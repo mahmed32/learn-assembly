@@ -10,3 +10,86 @@
    or the simplified segment definition
 >> Explain the difference between COM andEXE files and list the advanctages of each
 
+DIRECTIVES AND A SAMPLE PROGRAM
+
+    General form of a line in assembly
+    [lable:] mnemonic [oprands,] [;comment]
+
+    Lables are just a name for the line. we use lables to assign lines of code
+    to certain strings that can be easly used. a lable my refrence a CPU instruction
+    or an assembly directive. A directive is just an instruction but NOT for the CPU
+    it is for the ASSEMBLER. the assembler use these directive to organize the program
+    and how it should translate the instructions into machine code. A lable for a directive
+    does not has to end with a colon while if it is for a line that refrences a CPU instruction
+    it must end with a colon "with no spaces". A lable may be as long as 31 character long.
+    
+    mnemonic and oprands. mnemonics are instructions for the CPU to execute. the assembler translate
+    them into machine codes or opcodes. the oprands are depending on the instruction or the mnemonic.
+    the mnemonic and oprands can be a directive.
+
+    the comments are optional.
+
+    Model definition
+    the .MODEL directive direct the assembler to use a spesific memory model
+    avalibale models are TINY, SMALL, MEDIUM, LARGE, COMPACT, HUGE. the most widly
+    used is the SMALL model. so when you begin your source code it must begin
+    with the .MODEL directive with SMALL as its oprand
+    typical line >> .MODEL SMALL
+
+    Segmetn definition
+    As we now know the CPU has 4 segment registers those registers point to
+    places in memory that contains different type of data.Every line in assembly
+    language must coresspond to one the 4 segments. we can use the directive
+    to mark the begin of one segment and the end of the current. typically we
+    begin after the model directive by the .STACK [ammount of memory in bytes]
+    which tells the assembler I want those ammount of memory in the stack to be
+    avalibale to my program during execution. note that the programmer does not
+    care where is the STACK segment begin it is the job for the OS to find a place
+    in memory set aside the amount of memory for my program and fill the SS register and
+    SI with the proper information about my stack address. 
+    
+    after the stack segment we direct the assembler to the begining of the data segment
+    The data segment is used for the memory to be accessed during execution
+    .DATA directive is followed by lable for the data and another directive for the size of
+    required to those data and optional initial value. It is the job for the programmer to
+    fill the DS register with the address of the data segment. This is achived by putting
+    those line on the begining of your program (your main procedure)
+    MOV AX, @DATA ; DATA CONTAINS THE ADDRESS OF THE DATA SEGMENT
+    MOV DS, AX    ; THIS FILLS THE DS WITH APPROPRIATE VALUES
+
+    after the data segment the actual fun begins the code segment definition
+    by the .CODE directive every line after the code directive is part of the code
+    segment. the code segment is partiointed optionaly by procedures. A procuder is
+    a group of instructions that do specific job or function. The program must start
+    with a procedure as its entry point. here comes another directive in the show
+    the LABLE_NAME PROC [FAR, NEAR]. the entry point must be FAR (this is required by the OS)
+    we will know what is the difference between FAR and NEAR in up comming sections
+    but for now the entry point must be far. the entry point must also ended by another
+    directive ENDP LABEL_NAME. note that the LABLE_NAME must match each other for the same
+    procedure. but this is not enough to know which procedure is the entry point since more
+    than one procedure may be FAR the END ENTRY_POINT_LABLE_NAME must be the last line
+    in the code segment.the CS register and IP are filled automaticlly by the OS.
+
+    A template for your assembly programs
+
+    ;about the program what it does and who is the author
+    .MODEL SMALL
+    .STACK 32   ;ALLOCATE 32 BYTES FOR THE STACK
+    .DATA
+    ;
+    ;DEFINE YOUR DATA HERE
+    ;
+    .CODE
+ENTRY_POINT PROC FAR
+    MOV AX, @DATA
+    MOV DS, AX
+    ;
+    ;
+    ; PLACE YOUR CODE HERE
+    ;
+    ;
+    MOV AH, 4CH  ; SET UP TO
+    INT 21H      ; RETURN TO DOS
+ENTRY_POINT ENDP
+    END ENTRY_POINT
+
