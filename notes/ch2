@@ -122,4 +122,50 @@ ONTROL TRANSFER INSTRUCTIONS {CALL, JUMP}
     Conditional jumps
     uses the the flag register (see tables for complete set of the those jumbs)
 
-    short jumps 
+    Short jumps 
+    A short jump or a conditional jump is a jump that happen to transfer the control
+    to a lable that in the RANGE OF 127 AND -128 which means that the conditional jump
+    instruction is a two byte instruction with the first byte as the opcode and the second
+    is the jump offset which can be from 00h to FFh any attempt to jump into a lable that is 
+    out of this range the assembler will produce an out of jump range error.
+    to calclute the next IP after the jump add the offset with the IP of the next instruction.
+    this is how the the CPU know where to go.
+
+    Unconditional jumps
+    has the form JMP {Far, near, short} {PTR label, any address mode, lable}
+    it jump unconditionaly to the lable specified. it has three forms
+    JMP SHORT LABLE 
+    this form is like the short jumps which has opcode and offset in two bytes
+    this mode is effient because it uses only 2 bytes.
+    JMP NEAR {ADDRESSING MODE}
+    this is like the short one but it use 3 bytes for the opcode and the offset 
+    the offset is 2 bytes which ranges from -32768 and +32767 
+    until now the jumps affects only the IP.
+    JUMP FAR PTR LABLE
+    here both the CS and the IP are affected and the control ransfers to another segment
+    
+
+    CALL STATEMENTS
+    CALL is another instruction to tranfer the control to another code block
+    it may be FAR or NEAR. but unlike jumping to lables CALL jumps to procesdures
+    each procedure must define if its a FAR or NEAR procedure. But why?
+    the reson is the CPU unlike jumps which not comming back to where it stops
+    in CALL the control must be back to the NEXT instruction after the CALL
+    so there may be some way to store the IP and then change it to the procedure
+    and then return back the first IP. this is done by the stack. Whenever you use
+    CALL the IP of the next instruction is pushed into the stack. after the procedure
+    finshes its work it must use RET instruction which as you might guess will pop
+    the IP from the stack and the BIU will begin fetching from the new IP which is the old
+    by the way:). NOTE if you push any thing into the stack inside the called procedure
+    you must pop it before the RET, otherwise the IP will contain what ever poped which
+    will continue blindly executing. this is very dangours which may destroy your entire system.
+    if the procedure defines itself as FAR it gives the direction to the assembeler to change the opcode
+    for the CALL instruction. in this case both the CS and IP will be pushed into the stack.
+    and after RET both will be poped.
+    TODO: see what is the order in stack that CS and IP are pushed in the case of FAR jump.
+
+    the default for the PROC is NEAR.
+
+    RULES FOR NAMING IN ASSEMBLY
+    see tables/naming_rules.png
+    
