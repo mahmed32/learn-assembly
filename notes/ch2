@@ -168,4 +168,84 @@ ONTROL TRANSFER INSTRUCTIONS {CALL, JUMP}
 
     RULES FOR NAMING IN ASSEMBLY
     see tables/naming_rules.png
+    A name for a lable in assembly can be A-Z or a-z or 0-9 or '?', '.', '@', '_', '$'
+    the first character of the name must be an alphabetic or a special character. it cannot be digit
+    THE PERIOD IS ONLY USE IN THE FIRST OF THE LABLE. but it is not recomnede to use periods.
+
+    NOW WITH OUR NEW KNOWLEDGE LET WRITE A TEMPLATE FOR CALLING PROCEDURES
+
+    .......
+    .CODE
+MAIN PROC FAR
+    MOV AX, @DATA
+    MOV DS, AX
+    CALL SUBR1
+    CALL SUBR2
+    CALL SUBR3
+    MOV AH, 4CH
+    INT 21H
+MAIN ENDP
+
+SUBR1 PROC NEAR
+    ....
+    RET
+SUBR1 ENDP
+
+SUBR2 PROC NEAR
+    ....
+    RET
+SUBR2 ENDP
+
+SUBR3 PROC NEAR
+    ....
+SUBR3 ENDP
+
+END MAIN  ; THIS IS NECCESERY TO TELL THE ASSEMBLER WHICH ONE IS THE ENTRY POINT FOR YOUR PROGRAM
+
+
+
+DATA TYPES AND DATA DEFINITION
+    no types are larger than 16 bits and it is the job of the programmer to break the data
+    to fit in this limitaion.
     
+    Assembler data directives:
+    ORG(origin)
+    used to indicate the begining of an offset, this can be used in the data
+    segment to indicate the offset of the next data item in other words ORG 
+    specify how far is the next item will be from the data segment and each
+    subsequnt defintions will follow from that offset.
+    it may also be inside the code segment which put the offset of it(IP).
+    ex:
+    ORG 10H ; THE OFFSET IS DS:0010H
+    TODO: KNOW WHAT IS THE EFFECT OF ORG INSIDE THE CODE SEGMENT
+
+    DB(define byte)
+    simply it gets a byte in the memory to use. this is the smallest size can be assigned to memory holder
+    ascii character are putted between ''.
+    this is the only directive that work with ascii data larger than 2 bytes
+    ex:
+    DATA1 DB 11H ; IN HEX
+    DATA2 DB 123 ; IN DECIMAL
+    DATA3 DB ?   ; NO INITIAL VALUE GARBAGE
+    DATA4 DB 'A' ; ASCII CODE FOR A STORED
+    DATA5 DB "SAWSAN'S" ; ARRAY OF CHARS STORED AND DATA5 REFERS TO THE FIRST CHAR
+
+    DUP(duplicate)
+    used to duplicate values
+    don't over think it is just a stupid substituion
+    ex:
+    DATA1 DB 6 DUP(0FFH) ; WILL DO THE SAME AS THE NEXT LINE
+    DATA2 DB 0FFH, 0FFH, 0FFH, 0FFH, 0FFH, 0FFH
+    DATA3 DB 2 DUP(3 DUP(10H)); WILL DEFINE 6 BYTES EACH HAS 10H
+
+    DW(define word)
+    alocate 2 bytes of memroy 
+    DD(define double word)
+    alocate 4 bytes of memory
+    EQU(equate)
+    #define SIZE 34 == SIZE EQU 34
+    DQ(define quadword)
+    define 8 bytes
+    DT(define ten bytes)
+    define 10 bytes
+     
