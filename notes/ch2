@@ -102,3 +102,24 @@ ENTRY_POINT ENDP
     When using letter as the first digit in a hex number write 0 before it
     to not confuse the assembler and tell it this is a number and not a letter.
     
+ONTROL TRANSFER INSTRUCTIONS {CALL, JUMP}
+    what is the difference between FAR AND NEAR?
+    previously I told you to make the entry point of your program FAR but why??
+    now is the time for the answer. if we return to the basics of the CS and IP
+    we agree on what follows "Every instruction has a physical address and every
+    physical address has a crossponding logical address this is CS:IP in the case
+    of instructions". so to transfer the control in your program which means you
+    make another code to be executed instead of the next instruction you must update
+    the address of the instruction to be executed. if the instruction to be executed
+    is "near" the current one which means both have the same base address or in other words
+    both are in the same segment this tranfer is a near transfer. if both the CS and IP have to
+    be updated then this jump is a FAR jump. I think this makes perfect sence.
+    but I still not answer you why the entry point if FAR. With what we see about FAR jumps
+    there must be a caller to the entry point and this caller is FAR from my entry point
+    this caller is the OS in your machine. which is logicaly write sence the OS must not run
+    inside your code segment.
+
+    Conditional jumps
+    uses the the flag register (see tables for complete set of the those jumbs)
+
+    short jumps 
