@@ -93,3 +93,12 @@ ENTRY_POINT PROC FAR
 ENTRY_POINT ENDP
     END ENTRY_POINT
 
+
+    Analysis of program 2-2
+    Another important directive is ORG which is used inside the segments
+    to set the offset of the next instruction or data.
+    so .DATA followed by ORG 10H will set the offset to be DS:0010H.
+
+    When using letter as the first digit in a hex number write 0 before it
+    to not confuse the assembler and tell it this is a number and not a letter.
+    
