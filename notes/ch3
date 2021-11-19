@@ -1,0 +1,61 @@
+OBJECTIVES
+>> Demonstrate how 8-bit and 16-bit unsigned numbers are added in the 80x86
+>> Convert data of any forms: ASCII, packed BCD, or unpacked BCD
+>> Explain the effect of unsigned arithmetic instructions on the flag register
+
+UNSIGNED ADDITION AND SUBTRACTION
+  -Addition of unsigned numbers
+     ADD dest, src  ; dest=dest + src
+     ADC dest, src  ; dest=dest + src + CF "the value of CF before the current operation is added not after dest + src"
+     the dest can be a register or memory, the src can be a register or memory or immeditate value
+     remember that 8086 never allow memory to memory for any operations.
+     In addition operations there are two cases you want to add oprands in
+     if the oprands are of the same size as the registers or in other words the oprands
+     can fit inside any register you have, the second case the oprands can not fit
+     in any register which means they are more than 2 bytes numbers
+
+    -Case1: Addition of word or byte data
+     Here we can just use the AX/AL as an acumilator and loop throw all the word/byte data and add them with AX/AL
+     the problem with this simple solutoin is it is not correct in general. if the summation of the data is larger than the size
+     of the accumlator used then there are some data lost because we ignore the carry out of each opration
+     the solution to this is to use an accumlator and another register to accumlate the carry out of each ADD opration this is done
+     by the adding the CF. see the example
+
+     BACK: ADD AX, [SI]
+           ADC BX, 00H
+           INC SI
+           DEC CX
+           JNZ BACK;
+
+     here the BX is used to accumlate the carry "ADC BX, 00H => BX = BX + 00H + CF = BX + CF"  
+
+    -Case2: Addition of multiword numbers
+     In order to add multiword data one must partition the data into register size chuncks and add them in chuncks
+     it is obvious that the carry must be add from chunck to chunck in order to get the correct result. so if you have
+     two 8-byte number to add them define them with DQ directive and add 2 bytes by 2 bytes here is an algorithm
+     store the oprands in SI, and DI and the result in BX, clear the carry "CLC" mov from SI the first 2-bytes to AX
+     ADC AX, [DI] store the sum in [BX] -> mov [BX], AX. the ADC will get the correct result.
+     IMPORTANT: if you use the above the alogrithm do not use any addition in after the ADC until the loop finish
+     NOTE THAT DEC AND INC DOES NOT AFFECT THE CF EVEN IF INC BX, and BX WAS FFH, THE SAME FOR DEC.
+  
+  -Subtraction of unsigned numbers
+     SUB dest, source ; dest = dest - source
+     How the CPU do that?
+     The CPU use the same add circuit to perform the subtraction which is weired but more effiecint
+     1- the source converted to its 2'complement form
+     2- the dest is add to 2'complement of source and the result is stored in dest
+     3- the carry flag is inverted.
+     it will be wrong if the programmer check the sign flag to know if the result is negative or positive
+     one should check the carry flag if it is 0 then the result is positive and the dest is greater than or equal to the source
+     if the carry flag is 1 then the result is in 2'complement form and the dest is smaller than the source.
+     we can use NOT followed by INC to convert the result back to normal representaion.
+     
+     SBB des, source ; dest = dest - source - CF
+     this is used when subtracting multiword data. the same is done as adding multiword data the lower bytes data
+     are first subtracted and if the carry is set it will be subtracted from the higher bytes.
+  PTR DIRECTIVE
+     the PTR directive is used to direct the assembler to use certain size instead the one that assign with the data
+     for example if you define DATA1 DW 235FH. If you then whant to get the data from DATA1 and put it in AL
+     if you use MOV AL, DATA1. this gives an error because the sizes must match. to get around this use
+     MOV AL, BYTE PTR DATA1 + {offset} this will give you only the first byte in DATA1.
+        
