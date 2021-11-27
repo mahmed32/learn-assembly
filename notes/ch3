@@ -82,9 +82,29 @@ UNISINGED MULTIPLICATION AND DIVISION
          this number can only be stored in 32 bit number. so how we do that?
          the DX will help AX to store this big number. DX will hold higher bits and AX lower bits
          NOTE IN MULTIPLICATION IMMEDIATE DATA MUST BE IN A REGISTER.
-      3- 16-bit * 8-bit
+      3- 16-bit * 8-bit result in DXAX
          one must be in AL and AH MUST BE ZERO The other can be in memory or in a register.
          Note that this is much similar to word * word the trick here is just use lower bits from AX and
          set the higher bits to zero and then multibly by a 16-bit value. from this the 8-bit oprand must be in AL.
 
+    - Division
+      we have four cases
+      1- word/byte
+         The word data must be in AX and the second oprand can not be an immediate value it must be in a register or in memory
+         the result is quotient is stored in AL and the remainder in AH, NOTE THAT THE MAXIMUM QUOTIENT IS FFH.
+      2- byte/byte
+         the same as word/byte but the trick is to set AL as the numerator and set AH to 0, then use div with the denomenator.
+         the denominator must be a register or in memory
+      3- double word/ word
+         The numrator is stored in DXAX as DX has the higher bits and AX has lower order bits the denominator must be word sized
+         and stored in memory or in register. the qoutient is stored in AX and the reminder is stored in DX.
+      4- word / word
+         set DX to 0 and you get the trick here.
+
+      But How does the CPU knows if the DX has to be used either in multiplication or in division? if we talk a closer look for the cases
+      the can compressed in only two cases and the parameter that the CPU use to choose the disision is just the size of the oprand to the
+      instruction. for example in if DIV WORD_DATA then the CPU will automaticly knows that it must use DXAX and divide by WORD_DATA.
+      if DIV BYTE_DATA  then the CPU will only use AX as the numerator. this explains why we use the trick above and set the higher order bits
+      to zero to have more cases in division.
       
+
