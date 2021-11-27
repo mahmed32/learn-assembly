@@ -59,3 +59,32 @@ UNSIGNED ADDITION AND SUBTRACTION
      if you use MOV AL, DATA1. this gives an error because the sizes must match. to get around this use
      MOV AL, BYTE PTR DATA1 + {offset} this will give you only the first byte in DATA1.
         
+
+UNISINGED MULTIPLICATION AND DIVISION
+    8086 has this feature that 8085 does not have which is it now supprots multipilcation and division
+    in those operation the AX, AH, AL, DX are used.
+    - Multiplication
+      in multiplication with 8,16-bit registers we have 3 cases
+      1- 8-bit * 8-bit
+         in this case one of the oprand must be in AL and the other can be in a register or in memory
+         MOV AL, OP1
+         MUL OP1
+         MOV RESULT, AX
+         THE RESULT IS SAVED IN AX.
+         if you use register indirect addressing mode the oprand size must be specified with PTR directive.because
+         the asselbler will not know if you need the byte or the word pointed to by the register.
+      2- 16-bit * 16-bit
+         one of the oprand must be in AX and the other can be register or in memory
+         MOV AX, 1253H
+         MOV BX, 1534H
+         MUL BX
+         here we know the largest number can be as output from two unsigned 16-bit numbers is (2^(16)-1)^2 = 2^(32)-2^(17)+1
+         this number can only be stored in 32 bit number. so how we do that?
+         the DX will help AX to store this big number. DX will hold higher bits and AX lower bits
+         NOTE IN MULTIPLICATION IMMEDIATE DATA MUST BE IN A REGISTER.
+      3- 16-bit * 8-bit
+         one must be in AL and AH MUST BE ZERO The other can be in memory or in a register.
+         Note that this is much similar to word * word the trick here is just use lower bits from AX and
+         set the higher bits to zero and then multibly by a 16-bit value. from this the 8-bit oprand must be in AL.
+
+      
