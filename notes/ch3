@@ -107,4 +107,62 @@ UNISINGED MULTIPLICATION AND DIVISION
       if DIV BYTE_DATA  then the CPU will only use AX as the numerator. this explains why we use the trick above and set the higher order bits
       to zero to have more cases in division.
       
+LOGICAL INSTRUCTIONS
+
+    -AND dest, source 
+     dest can be register or in memory, dest can be immediate or register or in memory
+     this instruction will perform bitwise AND between the dest and the source and will place the result in dest.
+     AND will set the CF and OF autmatically to zero, and ZF, SF, PF will set according to the restul.
+     we can use AND to know if the register contains zero by ANDing it with itself if the register contains zero
+     then the ZF flag is set. then we can perform acctions accroding to that like not divide by it if it is zero.
+
+    -OR dest, source
+     The oprandes are ORed and the result is stored in dest. this can be used to set bits to one.
+     the flags will be affected as AND get affected. also can be used to check for zero by oring the oprand to itself
+
+    -XOR dest, source
+     has the same flag and oprand rules as OR and AND instructions
+     but it has interseting applications. 
+     -it can be used to test if the two oprands are equal
+     -it also can be used to clear the contents of a register
+     -it can be used to toggle bits in the dest. with bits equal 1 in source
+      so if source = 0000 0001 then XOR dest, source . will only toggle the first bit in dest and keep rest the same.
+
+    - SHIFT OPRATIONS (SHL, SHR) (logical shift)
+      the shift dest can be in a register or in memory but not immediate. the source can only be 1 or a CL
+      use 1 if you will shift one time, CL if you will shift many.
+     -SHL dest, source
+      the destionation is sihfted bit by bit from the MSB and zero bits entered from the right as we shift the MSG per shift
+      is stored in CF. you may immagine the CF as if a check room for each bit that leave the data. as each bit leave it must
+      go to check room first until another bit has to leave the first one goes out and the most recently leaving will be in CF and so on.
+      The flag affected are all of CF, OF, SF, PF, ZF the last four changed according throw the new restul. note that the result is 
+      stored in the dest.
+     -SHR
+      is the same as SHL but the check room is now in the right of the data and zeros comeing from left and leaving from right to CF.
+    
+     -CMP op1, op2
+      op1 can be in a register or in memory and op2 can be register or in memory or immediate.
+      this OPERATION DOES NOT AFFECT ANY OF OP1, OP2 IT ONLY AFFECTS THE FLAG REGISTER. see tables.
+      it subtracts op1 - op2 and the flag is only affected by the resul of this subtraction
+      JA and JB can be used after comparsion if op1>op2 JA , if op1<op2 JB and JZ if op1=op2
+
+     -Rotations
+        the number of rotations if it is one then can be used as immediate if not it must be in CL
+        The oprand "data" can be in a register or in memory
+        to remember what is the direction of the data. if R is the last letter in the instruction then CF is at the right and the data 
+        goes from left to right
+        if the last letter is L then the CF is set left to the data and the direction is the rotaion happen from right to left
+
+      -normal rotaions
+       -ROR rotate to the right
+        the LSB is copied to the CF then the data is shifted by one and the CF is copied to the MSB the CF acts as a placeholder
+       -ROL rotate to the left
+        the MSB is copied to the CF the data is shifted to the left by one then the CF is copied to the LSB.
+
+      -with carry rotations
+       -RCR
+        The carry flag is part from the data now.
+        the LSB goes to the carry and the old carry goes to the MSB. and so on, this happens per rotation
+       -RCL
+        The MSB is goes to the carry and the old carry goes to the LSB. happens also per rotatoin.
 
