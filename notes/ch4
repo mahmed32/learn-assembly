@@ -4,3 +4,39 @@ WHAT DOES SCROLL MEAN?
 HOW TO OUTPUT STRINGS TO SCREEN?
 HOW TO INPUT STRINGS FROM KEYBOARD?
 HOW THE LABEL DIRECTIVE IS USED?
+WHAT IS AN INTERRUPT?
+
+- INT xx  ;interrupt range from 00h to FFh
+- an INT is just like a FAR CALL but it saves also the flag register.
+
+BOIS INT 10H PROGRAMMING used for screen IO
+- monitor screen mode (graphics and text modes)
+  - text mode
+    the pixels are cobioned into groups 8 by 8 pixel per letter
+    the screen has 80 column and 25 rows number from (0, 0) at the
+    top left corner and (0, 79) at the top right corner and from
+    (24, 0) at the bottom left corner and (24, 79) at the bottom right corner
+  
+  - Clearing the screen INT 10H with functino 06H
+    INT 10H is used
+    AH = 06H is a scroll up function
+    AL = 0 for clear otherwise will be number of lines to scroll
+    BH = is back ground color see bios color attributes(16 colors)
+    CX = 0000 CH upper row number , CL left column number
+    DX = 184Fh DH lower row number, DL right column number
+
+  - Setting the curser to a specific postion
+    INT 10h is used
+    AH = 02h set curser function
+    BH = page number
+    DH row number
+    DL column number
+
+  - Get the cursor position
+    INT 10h is used
+    AH = 03h function number
+    BH = 00 page number
+    the row will be in DH and the column in DL
+
+  - read to know about pixel programming.
+ 
