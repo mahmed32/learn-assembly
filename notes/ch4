@@ -39,4 +39,33 @@ BOIS INT 10H PROGRAMMING used for screen IO
     the row will be in DH and the column in DL
 
   - read to know about pixel programming.
+
+DOS INTERRUPT 21H  string input output
+ - option 09 output buffer to the screen
+   the effective address of the buffer must be in DX
+   the int function will begin printing from the buffer up until it counters a '$'
+ - option 02h will output a single character even '$'
+   the character must be in DL
  
+ - option 01 will input a single character with echo
+   the int will wait untill the character input then will print it back to the schreen
+   and put it in AL
+ - option 0A will input a string of data from the keyboard
+   the buffer must be as follows 
+   BUFFER LABEL BYTE
+   BUFFSZE      DB      <number of max characters that the user allowed to input>
+   BUFCUNT      DB      <number of actual data entered by the user>
+   BUFDATA      DB      < n DUP('$') >
+
+   the interrupt function will continue accept input from the user unitll he hits CR key 0Dh in hex
+   then if the number of inputted characters are greater than the maximum allowed size the CR will
+   be the last character in bufdata and the bufcount will be bufsize-1.
+
+   the CR is used to move to the begining to the current line
+   the line feed is used to move to the next line with same x coordinate
+   CR is 0Dh and LF is 0Ah
+   
+   option 07 will input without echo
+   will accept single character withou echo back to the screen.
+   the character will be in AL.
+
