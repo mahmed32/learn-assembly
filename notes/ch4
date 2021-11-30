@@ -69,3 +69,10 @@ DOS INTERRUPT 21H  string input output
    will accept single character withou echo back to the screen.
    the character will be in AL.
 
+INT 16H KEBOARD PROGRAMMING
+-   checking a key press
+    option 01 is used
+    this functino will not wait for a key to be pressed it will just unset te key flag if a key is pressed
+    To know which key is pressed immediatly after option 01 and int 16h 
+    use optoin 0h with int 16h and the ascii will be in AL and the scan code will be in AH.
+
