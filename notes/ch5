@@ -2,15 +2,64 @@ MACROS AND THE MOUSE
 
 WHAT ARE THE ADVANTAGES OF USING MACROS?
 
+- Imagin you are writing a chat system and you frequently asking for string input
+  and displying string output back. the normal way to do this is each time a you
+  need an input you invoke int21h with the approprite parameters for it.
+  but imagine you are doing it 100 times this is a lot of typing and will introduse
+  alot of error. another solution is to copy/paste. try it and you will know that 
+  this solution is the worst forever. Here Macros comes in a macro is just a block
+  of code that is represted by name and an optional parameters for the macro.
+  so for our problem a macro can be used just as this
+  READSTRING BUFFER
+  the block of code is exactly the same as the normal way you do it but the advantage
+  here is you write it and test it once and you can use that line of code at any time
+  you want a string from the user.
+
 HOW TO DEFINE A MACRO
 
+- A macro contains of 3 parts
+
+  name MACRO para1, para2,....paraN
+       .....
+       ;code 
+       ....
+       ENDM
+       
 HOW TO INVOKE A MACRO
+
+- the defintion must be befor the invocation
+  
+  <macroname>   para1, para2....paraN
+
 
 HOW THE MACROS ARE EXPANDED
 
+- use .lst file to know
+
 LOCAL DIRECTIVE?
+
+- If there is a label inside your macro then if you call it more than one time
+  the assembler will give you an error because it will not allow multiple lable 
+  with the same name.
+  if you want a label inside you macro use LABEL DIRECTIVE as follows
+
+  <macro name> MACRO    para1, para2,...paraN
+               LOCAL <label name1>, <label name2>.....
+               ....
+               ;code
+               ....
+               ENDM
+  note that the LOCAL must come immidiatly after the MACRO.
 
 INCLUDE DIRECTIVE?
 
+- to use MACROS in more than one file one can store them in a separte file 
+  and then copy and paste them in each new file that he will use the macros in
+  BUT with INCLUDE directive one can store that file with .mac extention and
+  then just write the following at the top of the file
+
+  INCLUDE <file name>.MAC
+
 INT 33H??? MOUSE???
+
 
