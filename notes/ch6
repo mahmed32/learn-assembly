@@ -1,0 +1,22 @@
+SIGNED NUMBER ARITHMETIC OPERATIONS
+    to avoid errors in signend number operations
+    note addition and subtraction is always correct regardless of signed or unsiged numbers
+    use
+        CBW : convert signed byte to signed word
+            the oprand is assumed to be AL and the contents of AH will be distroyed
+            D7 of AL will be copied into AH. ADDING THE SIGN BIT TO THE RIGHT DOES NOT CHANGE THE VALUE OF THE NUMBER
+        CWD : convert signed word to double word
+            the oprand is assuemd to be in AX and the contents of DX will be the same as the signed bit of AX
+        IDIV: signed number division
+            see tables for rules
+        IMUL: signed number multiplication
+            see tables 
+        Arithmetic shift:
+        SAL IS THE SAME AS SHL
+        BUT SAR copies the signed flag "MSB" AS IT SHIFTS AND THE LSB IN CARRAY FLAG AS NORMAL
+        
+        Signed number comparsion
+        CMP dest, source
+        it is the same as for unsigned number but the jump codition after using CMP is not the same as unsigned numbers
+        see tables for more informations
+
